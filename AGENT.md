@@ -26,15 +26,15 @@ _Leave it empty for now._
 - **Node.js** — JavaScript Runtime
 - **NPM** — Package Manager
 - **Git** — Version Control
-- **Expo SDK** — Mobile Framework
-- **React Native**— Core Mobile Library
+- **Expo SDK (v57)** — Mobile Framework
+- **React Native** — Core Mobile Library
 
 ### Framework
 
-- **Expo** (Managed Flow) — Cross-platform mobile app framework
+- **Expo** (Managed Flow, SDK 57) — Cross-platform mobile app framework
 - **React Native** — Core mobile component library
 - **TypeScript** — Static typing & type safety
-- **NativeWind / Tailwind CSS** — Utility-first styling framework
+- **NativeWind (v4) / Tailwind CSS (v3)** — Utility-first styling framework
 - **Expo Router** — File-based navigation system
 - **react-native-reanimated** — Smooth 60fps UI animations
 - **react-native-safe-area-context** — Screen notch & device inset handler
@@ -43,6 +43,13 @@ _Leave it empty for now._
 - **Supabase** — Backend database, API & user authentication
 
 > Do not introduce new major libraries unless there is a strong reason.
+
+### Expo SDK Version Rule
+
+- Current SDK: **Expo SDK 57 (v57.x)**
+- Use APIs, packages, and conventions compatible with Expo SDK 57.
+- Do not use deprecated APIs or patterns from older SDK versions.
+- Reference Docs: https://docs.expo.dev/versions/v57.0.0/
 
 ---
 
@@ -128,14 +135,16 @@ Prefer reusable class patterns through utilities in `global.css`. If a utility d
 
 ### NativeWind Version Rule
 
+This project uses **NativeWind v4** with **Tailwind CSS v3**:
+
 Before implementing any styling or NativeWind-related code:
 
-- Check the current NativeWind version in `package.json`
-- Follow the syntax, setup, and patterns supported by that exact version
-- Do not use APIs, config patterns, or examples from a different version
+- Check the current NativeWind version in `package.json` (`v4.x`)
+- Follow the syntax, setup, and patterns supported by NativeWind v4
+- Do not use NativeWind v5 / Tailwind CSS v4 syntax, config patterns, or CSS-only directives
 - Do not upgrade NativeWind unless the user explicitly approves it
 
-Reference: https://www.nativewind.dev/v5/llms-full.txt
+Reference: https://www.nativewind.dev/v4/overview
 
 ---
 
