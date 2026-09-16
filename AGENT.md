@@ -50,24 +50,21 @@ _Leave it empty for now._
 
 Use this structure unless there is a strong reason to change it and create folders only when needed:
 
-```
-my-app/
-├── app/                 
-│   ├── (auth)/        
-│   ├── (onboarding)/   
-│   └── (tabs)/        
-├── components/        
-├── constants/       
-├── data/               
-├── hooks/             
-├── lib/              
-├── store/             
-├── types/              
-├── utils/               
-└── assets/               
-```
+├── assets/                  
+├── src/
+│   ├── app/                 
+│   │   ├── (onboarding)/ 
+│   │   └── (tabs)/          
+│   ├── components/        
+│   ├── constants/           
+│   ├── data/                
+│   ├── hooks/               
+│   ├── lib/                 
+│   ├── store/               
+│   ├── types/               
+│   └── utils/               
 
----
+
 
 
 ## Architecture Guidelines
@@ -209,7 +206,7 @@ Otherwise, always stick to NativeWind utilities.
 - Use TypeScript strictly
 - No `any` — ever
 - Keep types simple and readable
-- Define shared types in `types/`, co-locate if feature-specific
+- Define shared types in `src/types/` (or `@/types`), co-locate if feature-specific
 - Type all API and service responses
 
 ---
