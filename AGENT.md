@@ -98,6 +98,15 @@ Use this structure unless there is a strong reason to change it and create folde
 - If the project evolves and new patterns emerge, suggest updating this file to reflect them.
 ---
 
+
+## Cross-Platform UI Consistency
+
+- The UI should look as close to identical as reasonably possible across both platforms.
+- Do not rely on platform-specific defaults that could make the design look different. Use consistent layouts, spacing, typography, colors, sizing, and components across iOS and Android.
+- Always consider different screen sizes and safe areas (`react-native-safe-area-context`), and prefer responsive solutions (flex layout, percentage/relative spacing) over device-specific fixes.
+- When implementing or modifying UI, prioritize visual consistency across iOS and Android.
+
+
 ## Decision Making & Clarifications
 
 If something is unclear or could be improved:

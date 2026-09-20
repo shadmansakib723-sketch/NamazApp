@@ -2,6 +2,7 @@ import { StyleSheet, useWindowDimensions, View } from "react-native";
 
 import { HomeHeroBackground } from "@/components/HomeHeroBackground";
 import { NextPrayerCard } from "@/components/NextPrayerCard";
+import { PrayerTapCard } from "@/components/PrayerTapCard";
 import { Screen } from "@/components/Screen";
 
 /**
@@ -13,7 +14,8 @@ import { Screen } from "@/components/Screen";
  *     ├─ [HomeHeroBackground]      zIndex: 0 — absolutely positioned, non-interactive
  *     └─ [content layer]           zIndex: 1 — sits on top of the hero artwork
  *          ├─ [heroSpacer]         same height as artwork → card starts just below it
- *          └─ [NextPrayerCard]
+ *          ├─ [NextPrayerCard]
+ *          └─ [PrayerTapCard]      below NextPrayerCard, no scroll
  *
  * Single source of truth for hero height
  * ──────────────────────────────────────
@@ -45,6 +47,9 @@ export default function HomeScreen() {
           country="Bangladesh"
           date="Thursday, 17 Sep"
         />
+
+        {/* Prayer tap card — directly below, fixed (no scroll) */}
+        <PrayerTapCard />
       </View>
     </Screen>
   );
@@ -58,3 +63,4 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
 });
+

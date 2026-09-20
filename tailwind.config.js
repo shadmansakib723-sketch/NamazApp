@@ -19,7 +19,7 @@ module.exports = {
           subtle: "#D8F3DC",    // very light green — subtle backgrounds if ever needed
         },
         surface: {
-          DEFAULT: "#FFFFFF",   // card background
+          DEFAULT: "#F3F4EC",   // card background
           page: "#F6F6F6",      // screen background
         },
         text: {

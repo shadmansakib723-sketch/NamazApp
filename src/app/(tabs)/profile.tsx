@@ -9,7 +9,7 @@ export default function ProfileScreen() {
       <View className="flex-1 px-6 pt-8">
         <ScreenTitle
           title="Profile"
-          subtitle="Account and pdddle settings will come here later."
+          subtitle="Account and pdddle sakib bai big dick settings will come here later."
         />
       </View>
     </Screen>
