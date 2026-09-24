@@ -44,6 +44,7 @@ export function HomeHeroBackground({ height }: HomeHeroBackgroundProps) {
         source={require("../../assets/fff.png")}
         style={styles.image}
         resizeMode="cover"
+        fadeDuration={0}
         accessibilityElementsHidden
         importantForAccessibility="no-hide-descendants"
       />
@@ -59,12 +60,12 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    // height is injected as a prop — no magic number lives here
-    overflow: "hidden",
+    backgroundColor: "transparent",
     zIndex: 0, // explicit: background layer
   },
   image: {
     width: "100%",
     height: "100%",
+    backgroundColor: "transparent",
   },
 });

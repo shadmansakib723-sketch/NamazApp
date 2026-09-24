@@ -4,6 +4,7 @@ import { HomeHeroBackground } from "@/components/HomeHeroBackground";
 import { NextPrayerCard } from "@/components/NextPrayerCard";
 import { PrayerTapCard } from "@/components/PrayerTapCard";
 import { Screen } from "@/components/Screen";
+import { StatsBar } from "@/components/StatsBar";
 
 /**
  * HomeScreen
@@ -37,6 +38,12 @@ export default function HomeScreen() {
       <View style={styles.contentLayer}>
         {/* Spacer that keeps content below the hero artwork */}
         <View style={{ height: heroHeight - 24 }} />
+
+        {/* Stats bar — streak, friends, points */}
+        <StatsBar />
+
+        {/* Gap between StatsBar and NextPrayerCard */}
+        <View className="h-3" />
 
         {/* Next Prayer card — pulled up 24 px to overlap the hero bottom edge */}
         <NextPrayerCard
