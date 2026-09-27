@@ -36,27 +36,30 @@ export default function HomeScreen() {
 
       {/* ── Content layer (z=1) ─────────────────────────────────── */}
       <View style={styles.contentLayer}>
-        {/* Spacer that keeps content below the hero artwork */}
-        <View style={{ height: heroHeight - 24 }} />
+        {/* Spacer that pushes the rounded sheet below the hero artwork */}
+        <View style={{ height: heroHeight - 42 }} />
 
-        {/* Stats bar — streak, friends, points */}
-        <StatsBar />
+        {/* ── Bottom sheet container with rounded top corners ────── */}
+        <View style={styles.sheetContainer}>
+          {/* Stats bar — streak, friends, points */}
+          <StatsBar />
 
-        {/* Gap between StatsBar and NextPrayerCard */}
-        <View className="h-3" />
+          {/* Gap between StatsBar and NextPrayerCard */}
+          <View className="h-3" />
 
-        {/* Next Prayer card — pulled up 24 px to overlap the hero bottom edge */}
-        <NextPrayerCard
-          prayerName="Dhuhr"
-          prayerTime="11:48 AM"
-          countdown="in 2h 16m"
-          city="Sylhet District"
-          country="Bangladesh"
-          date="Thursday, 17 Sep"
-        />
+          {/* Next Prayer card */}
+          <NextPrayerCard
+            prayerName="Dhuhr"
+            prayerTime="11:48 AM"
+            countdown="in 2h 16m"
+            city="Sylhet District"
+            country="Bangladesh"
+            date="Thursday, 17 Sep"
+          />
 
-        {/* Prayer tap card — directly below, fixed (no scroll) */}
-        <PrayerTapCard />
+          {/* Prayer tap card — directly below, fixed (no scroll) */}
+          <PrayerTapCard />
+        </View>
       </View>
     </Screen>
   );
@@ -69,5 +72,13 @@ const styles = StyleSheet.create({
     flex: 1,
     zIndex: 1,
   },
+  sheetContainer: {
+    flex: 1,
+    backgroundColor: "#b7c591ff",
+    borderTopLeftRadius: 13,
+    borderTopRightRadius: 13,
+    paddingTop: 16,
+  },
 });
+
 
