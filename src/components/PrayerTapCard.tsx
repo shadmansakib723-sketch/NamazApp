@@ -1,22 +1,29 @@
-import { Image, ImageBackground, Pressable, StyleSheet, View } from "react-native";
+import { ImageBackground, Pressable, StyleSheet, View } from "react-native";
 import { Text } from "react-native";
 import { useState } from "react";
+import type { SvgProps } from "react-native-svg";
 
-// ─── Assets ───────────────────────────────────────────────────────────────────
-
-const BG = require("../../assets/prayer_tap_bg.jpg");
-
-const PRAYER_IMAGES = {
-  fajr: require("../../assets/prayer_fajr.jpg"),
-  dhuhr: require("../../assets/prayer_dhuhr.jpg"),
-  asr: require("../../assets/prayer_asr.jpg"),
-  maghrib: require("../../assets/prayer_maghrib.jpg"),
-  isha: require("../../assets/prayer_isha.jpg"),
-} as const;
+import AsrIcon from "../../assets/asr.svg";
+import DhuhrIcon from "../../assets/dhuhr.svg";
+import FajrIcon from "../../assets/fajr.svg";
+import IshaIcon from "../../assets/isha.svg";
+import MaghribIcon from "../../assets/maghrib.svg";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type PrayerKey = keyof typeof PRAYER_IMAGES;
+type PrayerKey = "fajr" | "dhuhr" | "asr" | "maghrib" | "isha";
+
+// ─── Assets ────────────────────────────────────────────────────────────────────
+
+const BG = require("../../assets/prayer_tap_bg.jpg");
+
+const PRAYER_ICONS: Record<PrayerKey, React.FC<SvgProps>> = {
+  fajr: FajrIcon,
+  dhuhr: DhuhrIcon,
+  asr: AsrIcon,
+  maghrib: MaghribIcon,
+  isha: IshaIcon,
+};
 
 interface Prayer {
   key: PrayerKey;
@@ -92,11 +99,12 @@ export function PrayerTapCard() {
                   accessibilityRole="button"
                 >
                   {/* Circular prayer illustration */}
-                  <Image
-                    source={PRAYER_IMAGES[prayer.key]}
-                    style={styles.circleImage}
-                    resizeMode="cover"
-                  />
+                  <View style={styles.circleContainer}>
+                    {(() => {
+                      const Icon = PRAYER_ICONS[prayer.key];
+                      return <Icon width={50} height={50} />;
+                    })()}
+                  </View>
 
                   {/* Prayer name */}
                   <Text style={styles.label}>{prayer.label}</Text>
@@ -168,10 +176,11 @@ const styles = StyleSheet.create({
     borderColor: "transparent",
     borderWidth: 2.5,
   },
-  circleImage: {
+  circleContainer: {
     width: 50,
     height: 50,
     borderRadius: 25, // perfect circle
+    overflow: "hidden",
     marginBottom: 6,
   },
   label: {

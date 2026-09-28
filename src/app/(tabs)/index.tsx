@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   },
   sheetContainer: {
     flex: 1,
-    backgroundColor: "#acc573ff",
+    backgroundColor: "#ffffffff",
     borderTopLeftRadius: 13,
     borderTopRightRadius: 13,
     paddingTop: 12,

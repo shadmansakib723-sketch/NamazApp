@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <clipPath id="sceneClip">
+      <circle cx="512" cy="512" r="448"/>
+    </clipPath>
+
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#A96BC4"/>
+      <stop offset="48%" stop-color="#D98AB4"/>
+      <stop offset="100%" stop-color="#F3A39D"/>
+    </linearGradient>
+
+    <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7561B7"/>
+      <stop offset="100%" stop-color="#7355AE"/>
+    </linearGradient>
+
+    <linearGradient id="sun" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFB34B"/>
+      <stop offset="100%" stop-color="#FFA73D"/>
+    </linearGradient>
+
+    <linearGradient id="reflection" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F3A29D" stop-opacity=".9"/>
+      <stop offset="100%" stop-color="#F7A6A0" stop-opacity=".78"/>
+    </linearGradient>
+
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.5"/>
+    </filter>
+  </defs>
+
+  <!-- Clean circular app illustration -->
+  <circle cx="512" cy="512" r="448" fill="#8D63B8"/>
+
+  <g clip-path="url(#sceneClip)">
+    <!-- sky -->
+    <rect x="64" y="64" width="896" height="742" fill="url(#sky)"/>
+
+    <!-- subtle atmospheric glow -->
+    <ellipse cx="512" cy="560" rx="245" ry="170" fill="#F6A0A0" opacity=".10"/>
+
+    <!-- clouds -->
+    <g fill="#F7D5D1" opacity=".68">
+      <path d="M150 420
+               C181 418 203 405 219 381
+               C236 355 269 357 282 382
+               C291 368 309 363 326 369
+               C344 375 351 391 350 405
+               C377 401 400 409 414 425
+               L150 425 Z"/>
+      <path d="M646 356
+               C680 356 704 341 719 319
+               C736 293 773 296 789 323
+               C798 306 818 299 837 305
+               C856 311 866 328 864 343
+               C893 338 922 347 938 364
+               L646 364 Z"/>
+    </g>
+
+    <!-- setting sun -->
+    <circle cx="512" cy="650" r="116" fill="url(#sun)"/>
+
+    <!-- distant mountains -->
+    <path d="M55 650
+             C117 642 152 615 193 591
+             C226 571 249 569 275 579
+             C305 591 327 616 352 630
+             C370 640 389 628 406 635
+             C425 642 439 655 458 663
+             L458 730 L55 730 Z"
+          fill="#51429A"/>
+
+    <path d="M566 662
+             C595 649 617 632 646 624
+             C674 616 687 601 709 589
+             C744 570 773 578 797 590
+             C818 600 832 597 850 578
+             C878 548 918 562 946 581
+             C974 600 989 604 1000 605
+             L1000 730 L566 730 Z"
+          fill="#51429A"/>
+
+    <!-- darker mountain accents -->
+    <path d="M95 651 C155 633 190 601 221 594 C255 586 287 611 321 639 L354 669 L95 669 Z"
+          fill="#493A91" opacity=".62"/>
+    <path d="M675 651 C715 630 746 611 774 603 C803 595 827 604 853 618 C880 633 901 629 927 605 C949 585 974 588 1000 603 L1000 676 L675 676 Z"
+          fill="#493A91" opacity=".58"/>
+
+    <!-- water -->
+    <rect x="64" y="675" width="896" height="360" fill="url(#water)"/>
+
+    <!-- restore mountain silhouettes over waterline -->
+    <path d="M55 650
+             C117 642 152 615 193 591
+             C226 571 249 569 275 579
+             C305 591 327 616 352 630
+             C370 640 389 628 406 635
+             C425 642 439 655 458 663
+             L458 690 L55 690 Z"
+          fill="#51429A"/>
+    <path d="M566 662
+             C595 649 617 632 646 624
+             C674 616 687 601 709 589
+             C744 570 773 578 797 590
+             C818 600 832 597 850 578
+             C878 548 918 562 946 581
+             C974 600 989 604 1000 605
+             L1000 690 L566 690 Z"
+          fill="#51429A"/>
+
+    <!-- sunset reflection -->
+    <g fill="url(#reflection)" filter="url(#soft)">
+      <path d="M420 681 Q512 670 604 681 L604 704 Q512 714 420 704 Z"/>
+      <path d="M390 716 Q512 703 634 716 L634 744 Q512 757 390 744 Z"/>
+      <path d="M424 760 Q512 748 600 760 L600 789 Q512 800 424 789 Z"/>
+      <path d="M468 807 Q512 800 556 807 L556 835 Q512 842 468 835 Z"/>
+      <path d="M493 862 Q512 858 531 862 L531 885 Q512 889 493 885 Z"/>
+    </g>
+
+    <!-- subtle water highlights -->
+    <g fill="#C98AC0" opacity=".22">
+      <rect x="350" y="704" width="90" height="8" rx="4"/>
+      <rect x="585" y="699" width="80" height="7" rx="3.5"/>
+      <rect x="310" y="758" width="115" height="6" rx="3"/>
+      <rect x="600" y="754" width="92" height="6" rx="3"/>
+    </g>
+  </g>
+
+  <!-- crisp circular edge -->
+  <circle cx="512" cy="512" r="448" fill="none" stroke="#FFFFFF" stroke-opacity=".10" stroke-width="2"/>
+</svg>

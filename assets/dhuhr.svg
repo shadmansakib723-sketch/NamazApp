@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <clipPath id="iconClip">
+      <circle cx="256" cy="256" r="220"/>
+    </clipPath>
+
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#79C8F3"/>
+      <stop offset="1" stop-color="#66BCEB"/>
+    </linearGradient>
+
+    <linearGradient id="cloud" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F7FCFF"/>
+      <stop offset="1" stop-color="#D8EFFB"/>
+    </linearGradient>
+
+    <linearGradient id="hillBack" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4B9CC7"/>
+      <stop offset="1" stop-color="#3188B8"/>
+    </linearGradient>
+
+    <linearGradient id="hillMid" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4297C2"/>
+      <stop offset="1" stop-color="#2680AE"/>
+    </linearGradient>
+
+    <linearGradient id="hillFront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5DA9D0"/>
+      <stop offset="1" stop-color="#318EBC"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Blue circular icon background -->
+  <circle cx="256" cy="256" r="220" fill="url(#sky)"/>
+
+  <g clip-path="url(#iconClip)">
+    <!-- Sun -->
+    <circle cx="256" cy="202" r="61" fill="#FFC34A"/>
+
+    <!-- Sun rays -->
+    <g fill="#FFC34A">
+      <rect x="251" y="88" width="10" height="34" rx="5"/>
+      <rect x="251" y="88" width="10" height="34" rx="5" transform="rotate(45 256 202)"/>
+      <rect x="251" y="88" width="10" height="34" rx="5" transform="rotate(-45 256 202)"/>
+      <rect x="142" y="197" width="34" height="10" rx="5"/>
+      <rect x="336" y="197" width="34" height="10" rx="5"/>
+      <rect x="251" y="282" width="10" height="34" rx="5"/>
+      <rect x="251" y="282" width="10" height="34" rx="5" transform="rotate(45 256 202)"/>
+      <rect x="251" y="282" width="10" height="34" rx="5" transform="rotate(-45 256 202)"/>
+    </g>
+
+    <!-- Left cloud -->
+    <path d="M42 292
+             C49 280 61 273 76 274
+             C82 257 97 248 114 248
+             C136 248 153 263 157 283
+             C171 283 183 292 187 304
+             L48 304
+             C45 301 43 297 42 292 Z"
+          fill="url(#cloud)"/>
+
+    <!-- Right cloud -->
+    <path d="M351 294
+             C356 282 368 275 382 275
+             C388 256 404 246 423 246
+             C445 246 462 262 466 282
+             C480 282 492 291 496 304
+             L355 304
+             C353 301 352 298 351 294 Z"
+          fill="url(#cloud)"/>
+
+    <!-- Back mountain layer -->
+    <path d="M0 376
+             Q42 344 78 347
+             Q112 350 145 378
+             Q177 350 211 371
+             Q241 391 267 383
+             Q305 365 339 379
+             Q374 392 402 368
+             Q438 338 473 352
+             Q500 362 512 377
+             L512 512 L0 512 Z"
+          fill="url(#hillBack)"/>
+
+    <!-- Middle mountain layer -->
+    <path d="M0 397
+             Q55 355 105 364
+             Q143 372 177 407
+             Q211 430 245 414
+             Q282 396 312 406
+             Q348 418 379 398
+             Q414 373 450 384
+             Q486 394 512 416
+             L512 512 L0 512 Z"
+          fill="url(#hillMid)"/>
+
+    <!-- Front mountain layer -->
+    <path d="M0 412
+             Q43 387 84 389
+             Q122 391 154 416
+             Q187 441 221 454
+             Q256 467 287 448
+             Q322 425 355 431
+             Q389 438 420 457
+             Q461 482 512 470
+             L512 512 L0 512 Z"
+          fill="url(#hillFront)"/>
+  </g>
+</svg>

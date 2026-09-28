@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <clipPath id="circleClip">
+      <circle cx="512" cy="512" r="448"/>
+    </clipPath>
+  </defs>
+
+  <!-- Circular night illustration -->
+  <circle cx="512" cy="512" r="448" fill="#24477D"/>
+
+  <g clip-path="url(#circleClip)">
+    <!-- clean flat night sky -->
+    <rect x="64" y="64" width="896" height="896" fill="#24477D"/>
+
+    <!-- Crescent moon -->
+    <path
+      d="M 610 276
+         C 535 301 479 366 479 444
+         C 479 551 566 638 673 638
+         C 708 638 741 629 770 614
+         C 728 672 661 710 579 710
+         C 451 710 347 606 347 478
+         C 347 380 409 294 496 259
+         C 532 245 573 251 610 276 Z"
+      fill="#FFF7DC"/>
+
+    <!-- Stars -->
+    <g fill="#FFF7DC">
+      <!-- top star -->
+      <path d="
+        M 690 254
+        C 697 286 707 296 739 303
+        C 707 310 697 320 690 352
+        C 683 320 673 310 641 303
+        C 673 296 683 286 690 254 Z"/>
+
+      <!-- right star -->
+      <path d="
+        M 820 423
+        C 826 449 834 457 861 463
+        C 834 469 826 477 820 504
+        C 814 477 806 469 779 463
+        C 806 457 814 449 820 423 Z"/>
+
+      <!-- left star -->
+      <path d="
+        M 245 542
+        C 251 568 259 576 286 582
+        C 259 588 251 596 245 623
+        C 239 596 231 588 204 582
+        C 231 576 239 568 245 542 Z"/>
+    </g>
+
+    <!-- Far rolling hills -->
+    <path
+      d="M 35 775
+         C 139 698 236 679 331 704
+         C 407 724 463 783 545 801
+         C 639 822 704 779 775 747
+         C 847 715 919 721 995 763
+         L 995 1000
+         L 35 1000 Z"
+      fill="#1D3B6C"/>
+
+    <!-- Foreground rolling hill -->
+    <path
+      d="M 35 848
+         C 130 774 235 753 329 774
+         C 414 793 482 847 563 869
+         C 653 893 715 872 786 850
+         C 861 827 930 838 995 878
+         L 995 1000
+         L 35 1000 Z"
+      fill="#2E5A96"/>
+  </g>
+
+  <!-- subtle clean edge -->
+  <circle cx="512" cy="512" r="448" fill="none"
+          stroke="#FFFFFF" stroke-opacity=".08" stroke-width="2"/>
+</svg>
