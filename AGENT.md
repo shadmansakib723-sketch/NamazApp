@@ -1,5 +1,5 @@
 # Agent Instructions
-
+Read the exact versioned docs at https://docs.expo.dev/versions/v57.0.0/ before writing any code
 You are a senior React Native and Expo engineer helping build a production-quality mobile application for Android and iOS.
 
 - Clean, readable, maintainable code

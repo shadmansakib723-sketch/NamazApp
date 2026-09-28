@@ -1,5 +1,10 @@
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native";
+import type { SvgProps } from "react-native-svg";
+
+import CoinIcon from "../../assets/coin.svg";
+import FireIcon from "../../assets/fire.svg";
+import FriendIcon from "../../assets/friend.svg";
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
@@ -12,7 +17,7 @@ import { Text } from "react-native";
  *
  * Pure UI — no logic or props needed for now.
  * Styled with NativeWind classes; StyleSheet used only for
- * platform shadow (iOS/Android) and the exact icon font sizes.
+ * platform shadow (iOS/Android).
  */
 export function StatsBar() {
   return (
@@ -20,10 +25,9 @@ export function StatsBar() {
       {/* ── Streak ─────────────────────────────────────────────────── */}
       <StatTile
         iconBg="bg-orange-100"
-        icon="🔥"
+        Icon={FireIcon}
         value="5 Days"
         label="Streak"
-        sublabel="Keep going!"
       />
 
       {/* ── Separator ──────────────────────────────────────────────── */}
@@ -32,10 +36,9 @@ export function StatsBar() {
       {/* ── Friends ────────────────────────────────────────────────── */}
       <StatTile
         iconBg="bg-green-100"
-        icon="👥"
+        Icon={FriendIcon}
         value="3 / 7"
         label="Friends"
-        sublabel="prayed today"
       />
 
       {/* ── Separator ──────────────────────────────────────────────── */}
@@ -44,10 +47,9 @@ export function StatsBar() {
       {/* ── Points ─────────────────────────────────────────────────── */}
       <StatTile
         iconBg="bg-yellow-100"
-        icon="⭐"
+        Icon={CoinIcon}
         value="320"
         label="Points"
-        sublabel="Earn & unlock"
       />
     </View>
   );
@@ -58,24 +60,22 @@ export function StatsBar() {
 interface StatTileProps {
   /** Background colour class for the icon bubble */
   iconBg: string;
-  /** Emoji icon */
-  icon: string;
+  /** SVG icon component */
+  Icon: React.FC<SvgProps>;
   /** Big number / primary value */
   value: string;
   /** Top-row label */
   label: string;
-  /** Smaller sub-label below the value */
-  sublabel: string;
 }
 
-function StatTile({ iconBg, icon, value, label, sublabel }: StatTileProps) {
+function StatTile({ iconBg, Icon, value, label }: StatTileProps) {
   return (
     <View className="flex-1 flex-row items-center gap-x-2 px-1">
       {/* Icon bubble */}
       <View
         className={`h-11 w-11 items-center justify-center rounded-2xl ${iconBg}`}
       >
-        <Text style={styles.icon}>{icon}</Text>
+        <Icon width={24} height={24} />
       </View>
 
       {/* Text block */}
@@ -84,7 +84,6 @@ function StatTile({ iconBg, icon, value, label, sublabel }: StatTileProps) {
         <Text className="font-poppins-bold text-base text-brand-dark leading-tight">
           {value}
         </Text>
-        <Text className="font-poppins text-xs text-text-muted">{sublabel}</Text>
       </View>
     </View>
   );
@@ -107,8 +106,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#E0E0E0",
     marginVertical: 6,
     alignSelf: "stretch",
-  },
-  icon: {
-    fontSize: 22,
   },
 });

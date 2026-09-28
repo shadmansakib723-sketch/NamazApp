@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <radialGradient id="outer" cx="35%" cy="28%" r="78%">
+      <stop offset="0%" stop-color="#FFD65A"/>
+      <stop offset="65%" stop-color="#FFC12E"/>
+      <stop offset="100%" stop-color="#F2AA13"/>
+    </radialGradient>
+    <radialGradient id="inner" cx="35%" cy="28%" r="80%">
+      <stop offset="0%" stop-color="#F8B82B"/>
+      <stop offset="100%" stop-color="#D99513"/>
+    </radialGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#B77A00" flood-opacity=".22"/>
+    </filter>
+  </defs>
+
+  <!-- Golden coin -->
+  <circle cx="256" cy="256" r="205" fill="url(#outer)" filter="url(#shadow)"/>
+  <circle cx="256" cy="256" r="158" fill="url(#inner)"/>
+
+  <!-- Soft inner highlight/rim -->
+  <circle cx="256" cy="256" r="158" fill="none" stroke="#E8A51A" stroke-width="9" opacity=".35"/>
+
+  <!-- Rounded five-point star -->
+  <path
+    d="M256 135
+       C264 135 269 142 273 151
+       L291 196
+       C294 203 300 207 308 208
+       L356 211
+       C370 212 376 228 365 237
+       L328 268
+       C322 273 320 280 322 288
+       L334 334
+       C338 349 323 360 310 352
+       L270 326
+       C262 321 254 321 246 326
+       L202 352
+       C189 360 174 348 178 334
+       L190 288
+       C192 280 190 273 184 268
+       L147 237
+       C136 228 142 212 156 211
+       L204 208
+       C212 207 218 203 221 196
+       L239 151
+       C243 142 248 135 256 135 Z"
+    fill="#FFE9A3"/>
+</svg>

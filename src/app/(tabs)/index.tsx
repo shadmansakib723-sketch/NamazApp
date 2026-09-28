@@ -74,10 +74,10 @@ const styles = StyleSheet.create({
   },
   sheetContainer: {
     flex: 1,
-    backgroundColor: "#b7c591ff",
+    backgroundColor: "#acc573ff",
     borderTopLeftRadius: 13,
     borderTopRightRadius: 13,
-    paddingTop: 16,
+    paddingTop: 12,
   },
 });
 
