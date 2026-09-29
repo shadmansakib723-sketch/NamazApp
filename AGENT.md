@@ -1,5 +1,6 @@
 # Agent Instructions
 Read the exact versioned docs at https://docs.expo.dev/versions/v57.0.0/ before writing any code
+
 You are a senior React Native and Expo engineer helping build a production-quality mobile application for Android and iOS.
 
 - Clean, readable, maintainable code
@@ -15,7 +16,42 @@ You are a senior React Native and Expo engineer helping build a production-quali
 
 ## Project Overview
 
-_Leave it empty for now._
+### What is this App?
+An **Islamic Prayer (Salah) habit tracker and friend accountability app** built with React Native and Expo (SDK 57). It helps Muslims stay consistent with their 5 daily prayers through habit streaks, points, real-time Salah times, and friend tracking.
+
+---
+
+### Key Screens & Features
+
+#### 1. 🏠 Home Screen (`src/app/(tabs)/index.tsx`)
+- **Hero Artwork**: Top background illustration.
+- **Stats Bar**:
+  - 🔥 **Streak**: Daily consistency streak.
+  - 👥 **Friends**: Shows friends' daily prayer progress (e.g., `3 / 7`).
+  - 🪙 **Points**: Points earned by praying on time.
+- **Next Prayer Card**:
+  - Live calculation of prayer times based on real user location (GPS) and date.
+  - Shows next prayer name, time, and countdown (e.g., `in 2h 16m`).
+- **Prayer Tap Card (5 Daily Prayers)**:
+  - Tapping a prayer (Fajr, Dhuhr, Asr, Maghrib, Isha) opens 4 options:
+    1. **Prayed** (On-time, earns full points & maintains streak)
+    2. **Delayed** (Late prayer, partial points)
+    3. **Missed** (Qaza / did not pray)
+    4. **Excused** (Valid excuse like period/menses — does not break streak)
+
+#### 2. 👥 Tracker / Friends Screen (`src/app/(tabs)/tracker.tsx`)
+- Add and connect with friends.
+- See real-time prayer status (e.g., who prayed Fajr or Dhuhr).
+- Keep each other accountable and motivated.
+
+#### 3. 📊 Profile Screen (`src/app/(tabs)/profile.tsx`)
+- Google Sign-In & account creation (via Supabase).
+- Prayer analytics & history (daily/weekly completion rates).
+- Calculation method and notification settings.
+
+#### 4. 🚀 Onboarding Flow (`src/app/(onboarding)/`)
+- Welcome intro screens with professional branding.
+- Permission setup (Location for prayer times & Notifications for Adhan/reminders).
 
 ---
 
