@@ -13,7 +13,11 @@
       "bundleIdentifier": "com.sakib.salahtracker"
     },
     "android": {
-      "package": "com.sakib.salahtracker"
+      "package": "com.sakib.salahtracker",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#ffffff"
+      }
     },
     "web": {
       "bundler": "metro"
@@ -21,10 +25,16 @@
     "plugins": [
       "expo-router",
       "expo-font",
-      "expo-asset"
+      "expo-asset",
+      "@react-native-google-signin/google-signin"
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "c79df209-fd89-4a83-81b0-875ee67c3bca"
+      }
     }
   }
 }

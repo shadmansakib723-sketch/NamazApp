@@ -5,6 +5,7 @@ import { NextPrayerCard } from "@/components/NextPrayerCard";
 import { PrayerTapCard } from "@/components/PrayerTapCard";
 import { Screen } from "@/components/Screen";
 import { StatsBar } from "@/components/StatsBar";
+import { useNextPrayer } from "@/hooks/useNextPrayer";
 
 /**
  * HomeScreen
@@ -25,6 +26,7 @@ import { StatsBar } from "@/components/StatsBar";
  */
 export default function HomeScreen() {
   const { width: screenWidth } = useWindowDimensions();
+  const prayer = useNextPrayer();
 
   /** Derived from the 4:3 aspect ratio of fff.png */
   const heroHeight = screenWidth * (3 / 4);
@@ -47,14 +49,14 @@ export default function HomeScreen() {
           {/* Gap between StatsBar and NextPrayerCard */}
           <View className="h-3" />
 
-          {/* Next Prayer card */}
+          {/* Next Prayer card — all props driven by useNextPrayer hook */}
           <NextPrayerCard
-            prayerName="Dhuhr"
-            prayerTime="11:48 AM"
-            countdown="in 2h 16m"
-            city="Sylhet District"
-            country="Bangladesh"
-            date="Thursday, 17 Sep"
+            prayerName={prayer.prayerName}
+            prayerTime={prayer.prayerTime}
+            countdown={prayer.countdown}
+            city={prayer.city}
+            country={prayer.country}
+            date={prayer.date}
           />
 
           {/* Prayer tap card — directly below, fixed (no scroll) */}
