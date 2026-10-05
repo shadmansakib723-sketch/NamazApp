@@ -1,11 +1,34 @@
-import { ActivityIndicator, Alert, Image, Text, TouchableOpacity, View } from "react-native";
+import {
+  ActivityIndicator,
+  Alert,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
-import { Screen } from "@/components/Screen";
+import { ProfileHero, PROFILE_HERO_OVERLAP } from "@/components/ProfileHero";
 import { signInWithGoogle, signOut, statusCodes } from "@/lib/googleAuth";
 import { useAuthStore } from "@/store/useAuthStore";
 
+/**
+ * ProfileScreen
+ *
+ * Layout (top → bottom):
+ *
+ *   [ProfileHero]   full-width banner + overlapping circular avatar
+ *   [body]          name, email (signed-in only), sign-in / sign-out button
+ *
+ * Auth states
+ * ───────────
+ * Signed out → default kitten avatar, name "Cocoa", Sign in with Google button
+ * Signed in  → Google profile photo, real name + email, Sign out button
+ */
 export default function ProfileScreen() {
   const { user, isLoading, setUser, setLoading } = useAuthStore();
+
+  // ─── Handlers ───────────────────────────────────────────────────────────────
 
   async function handleSignIn() {
     setLoading(true);
@@ -39,72 +62,68 @@ export default function ProfileScreen() {
     }
   }
 
+  // ─── Render ─────────────────────────────────────────────────────────────────
+
   return (
-    <Screen>
-      <View className="flex-1 px-6 pt-8">
-        <Text className="text-3xl font-bold text-slate-950">Profile</Text>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.scrollContent}
+      showsVerticalScrollIndicator={false}
+    >
+      {/* Banner + circular avatar */}
+      <ProfileHero avatarUri={user?.avatarUrl} />
+
+      {/* Name, email, action button */}
+      <View style={styles.body} className="items-center px-6">
+        <Text className="mt-2 text-2xl font-bold text-slate-900">
+          {user ? user.name : "Cocoa"}
+        </Text>
 
         {user ? (
-          // Signed-in state
-          <View className="mt-10 items-center">
-            {user.avatarUrl ? (
-              <Image
-                source={{ uri: user.avatarUrl }}
-                className="h-24 w-24 rounded-full"
-              />
-            ) : (
-              <View className="h-24 w-24 items-center justify-center rounded-full bg-slate-200">
-                <Text className="text-3xl font-bold text-slate-500">
-                  {user.name.charAt(0).toUpperCase()}
-                </Text>
-              </View>
-            )}
+          <Text className="mt-1 text-sm text-slate-500">{user.email}</Text>
+        ) : null}
 
-            <Text className="mt-4 text-xl font-semibold text-slate-900">
-              {user.name}
-            </Text>
-            <Text className="mt-1 text-base text-slate-500">{user.email}</Text>
-
-            <TouchableOpacity
-              onPress={handleSignOut}
-              disabled={isLoading}
-              className="mt-10 w-full items-center rounded-2xl bg-slate-100 py-4"
-            >
-              {isLoading ? (
-                <ActivityIndicator color="#64748b" />
-              ) : (
-                <Text className="text-base font-semibold text-slate-700">
-                  Log out
-                </Text>
-              )}
-            </TouchableOpacity>
-          </View>
-        ) : (
-          // Signed-out state
-          <View className="mt-10">
-            <Text className="mb-6 text-base text-slate-500">
-              Sign in to track your prayers and connect with friends.
-            </Text>
-
-            <TouchableOpacity
-              onPress={handleSignIn}
-              disabled={isLoading}
-              className="w-full flex-row items-center justify-center gap-3 rounded-2xl border border-slate-200 bg-white py-4"
-            >
-              {isLoading ? (
-                <ActivityIndicator color="#64748b" />
-              ) : (
-                <>
-                  <Text className="text-2xl">🔵</Text>
-                  <Text className="text-base font-semibold text-slate-800">
-                    Sign in with Google
-                  </Text>
-                </>
-              )}
-            </TouchableOpacity>
-          </View>
-        )}
+        <TouchableOpacity
+          onPress={user ? handleSignOut : handleSignIn}
+          disabled={isLoading}
+          activeOpacity={0.8}
+          style={styles.button}
+          className="mt-6 flex-row items-center justify-center gap-3 rounded-2xl border border-slate-200 bg-white"
+        >
+          {isLoading ? (
+            <ActivityIndicator color="#64748b" />
+          ) : user ? (
+            <Text className="text-base font-semibold text-slate-700">Sign out</Text>
+          ) : (
+            <>
+              <Text className="text-xl">🔵</Text>
+              <Text className="text-base font-semibold text-slate-800">
+                Sign in with Google
+              </Text>
+            </>
+          )}
+        </TouchableOpacity>
       </View>
-    </Screen>
+    </ScrollView>
   );
 }
+
+// ─── Styles ───────────────────────────────────────────────────────────────────
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#ffffff",
+  },
+  scrollContent: {
+    flexGrow: 1,
+  },
+  body: {
+    paddingTop: PROFILE_HERO_OVERLAP + 8,
+  },
+  button: {
+    paddingVertical: 14,
+    paddingHorizontal: 32,
+    minWidth: 220,
+  },
+});
