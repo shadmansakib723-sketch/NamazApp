@@ -1,9 +1,9 @@
 import { StyleSheet, useWindowDimensions, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import { HomeHeroBackground } from "@/components/HomeHeroBackground";
 import { NextPrayerCard } from "@/components/NextPrayerCard";
 import { PrayerTapCard } from "@/components/PrayerTapCard";
-import { Screen } from "@/components/Screen";
 import { StatsBar } from "@/components/StatsBar";
 import { useNextPrayer } from "@/hooks/useNextPrayer";
 
@@ -12,7 +12,7 @@ import { useNextPrayer } from "@/hooks/useNextPrayer";
  *
  * Fixed, non-scrollable layout. Z-order (back → front):
  *
- *   [Screen / SafeAreaView]        flex: 1 container
+ *   [SafeAreaView]                 flex: 1 container
  *     ├─ [HomeHeroBackground]      zIndex: 0 — absolutely positioned, non-interactive
  *     └─ [content layer]           zIndex: 1 — sits on top of the hero artwork
  *          ├─ [heroSpacer]         same height as artwork → card starts just below it
@@ -32,7 +32,7 @@ export default function HomeScreen() {
   const heroHeight = screenWidth * (3 / 4);
 
   return (
-    <Screen>
+    <SafeAreaView style={{ flex: 1 }} edges={["top", "left", "right"]}>
       {/* ── Hero artwork: decorative, non-interactive, fixed (z=0) ── */}
       <HomeHeroBackground height={heroHeight} />
 
@@ -63,7 +63,7 @@ export default function HomeScreen() {
           <PrayerTapCard />
         </View>
       </View>
-    </Screen>
+    </SafeAreaView>
   );
 }
 

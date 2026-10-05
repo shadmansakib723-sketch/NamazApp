@@ -1,10 +1,13 @@
-import { Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 interface ProfileHeroProps {
   /** URI string for a remote avatar (e.g. Google profile photo). */
   avatarUri?: string | null;
+  /** Called when the settings gear icon is tapped. */
+  onSettingsPress?: () => void;
 }
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -35,13 +38,25 @@ export const PROFILE_HERO_OVERLAP = AVATAR_SIZE / 2;
  * The exported constant `PROFILE_HERO_OVERLAP` lets the parent screen push
  * its content down by the exact overlap amount — no magic numbers duplicated.
  */
-export function ProfileHero({ avatarUri }: ProfileHeroProps) {
+export function ProfileHero({ avatarUri, onSettingsPress }: ProfileHeroProps) {
+  const insets = useSafeAreaInsets();
   const avatarSource = avatarUri ? { uri: avatarUri } : DEFAULT_AVATAR;
 
   return (
     <View style={styles.wrapper}>
       {/* Full-width banner image */}
       <Image source={BANNER} style={styles.banner} resizeMode="cover" />
+
+      {/* Settings icon — top-right, clears status bar via safe area inset */}
+      {onSettingsPress ? (
+        <TouchableOpacity
+          onPress={onSettingsPress}
+          activeOpacity={0.7}
+          style={[styles.settingsButton, { top: insets.top + 8 }]}
+        >
+          <Text className="text-2xl text-white">⚙️</Text>
+        </TouchableOpacity>
+      ) : null}
 
       {/* Circular avatar — centred, half-overlapping the banner bottom */}
       <View style={styles.avatarRing}>
@@ -61,6 +76,12 @@ const styles = StyleSheet.create({
   banner: {
     width: "100%",
     height: 190,
+  },
+  // Dynamic top offset (status bar height) — must use StyleSheet (runtime value)
+  settingsButton: {
+    position: "absolute",
+    right: 16,
+    padding: 6,
   },
   avatarRing: {
     position: "absolute",

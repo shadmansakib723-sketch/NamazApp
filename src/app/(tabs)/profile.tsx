@@ -8,6 +8,8 @@ import {
   View,
 } from "react-native";
 
+import { useRouter } from "expo-router";
+
 import { ProfileHero, PROFILE_HERO_OVERLAP } from "@/components/ProfileHero";
 import { signInWithGoogle, signOut, statusCodes } from "@/lib/googleAuth";
 import { useAuthStore } from "@/store/useAuthStore";
@@ -27,6 +29,7 @@ import { useAuthStore } from "@/store/useAuthStore";
  */
 export default function ProfileScreen() {
   const { user, isLoading, setUser, setLoading } = useAuthStore();
+  const router = useRouter();
 
   // ─── Handlers ───────────────────────────────────────────────────────────────
 
@@ -70,8 +73,11 @@ export default function ProfileScreen() {
       contentContainerStyle={styles.scrollContent}
       showsVerticalScrollIndicator={false}
     >
-      {/* Banner + circular avatar */}
-      <ProfileHero avatarUri={user?.avatarUrl} />
+      {/* Banner + circular avatar + settings icon */}
+      <ProfileHero
+        avatarUri={user?.avatarUrl}
+        onSettingsPress={() => router.push("/settings")}
+      />
 
       {/* Name, email, action button */}
       <View style={styles.body} className="items-center px-6">
