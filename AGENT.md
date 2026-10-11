@@ -148,16 +148,19 @@ Use this structure unless there is a strong reason to change it and create folde
 If something is unclear or could be improved:
 
 - Proactively suggest better approaches
-- If a new library would significantly simplify or improve the implementation:
-  - Recommend the library
-  - Clearly explain why it is useful
-  - Ask the user for permission before adding or installing it
 
-**Example:**
+---
 
-> "This could be implemented manually, but using `react-native-reanimated` would make animations smoother. Do you want me to add it?"
+## Dependencies & Third-Party Libraries
 
-Do not install or use new libraries without user approval.
+- Default to using what is already installed in `package.json`.
+- Do not run `npm install` or add dependencies without explicit user confirmation.
+- When a task would benefit from an external library (e.g., complex gestures, bottom sheets, date pickers):
+  1. Clearly explain why the library is needed.
+  2. Present two choices:
+     - **Option A (Library):** The recommended library and its benefits.
+     - **Option B (Zero-Dependency):** How to achieve a simple/acceptable version using existing tools.
+  3. Wait for the user to choose before proceeding.
 
 ---
 

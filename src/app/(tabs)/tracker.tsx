@@ -5,8 +5,8 @@ export default function TrackerScreen() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }} edges={["top", "left", "right"]}>
       <View className="flex-1 px-6 pt-8">
-        <Text className="text-3xl font-bold text-slate-950">Tracker</Text>
-        <Text className="mt-2 text-base text-slate-500">
+        <Text className="text-3xl font-poppins-bold text-slate-950">Tracker</Text>
+        <Text className="mt-2 text-base font-poppins text-slate-500">
           Salary tracking will be added here next.
         </Text>
       </View>

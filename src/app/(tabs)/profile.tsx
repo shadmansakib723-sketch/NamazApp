@@ -1,37 +1,43 @@
 import {
-  ActivityIndicator,
   Alert,
   ScrollView,
   StyleSheet,
-  Text,
   TouchableOpacity,
+  useWindowDimensions,
   View,
 } from "react-native";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
+import Svg, { Path } from "react-native-svg";
 
 import { useRouter } from "expo-router";
 
-import { ProfileHero, PROFILE_HERO_OVERLAP } from "@/components/ProfileHero";
-import { signInWithGoogle, signOut, statusCodes } from "@/lib/googleAuth";
+import { ProfileCreateCard } from "@/components/ProfileCreateCard";
+import { ProfileHero } from "@/components/ProfileHero";
+import { ProfilePeriodSelector } from "@/components/ProfilePeriodSelector";
+import { signInWithGoogle, statusCodes } from "@/lib/googleAuth";
 import { useAuthStore } from "@/store/useAuthStore";
 
 /**
  * ProfileScreen
  *
- * Layout (top → bottom):
- *
- *   [ProfileHero]   full-width banner + overlapping circular avatar
- *   [body]          name, email (signed-in only), sign-in / sign-out button
- *
- * Auth states
- * ───────────
- * Signed out → default kitten avatar, name "Cocoa", Sign in with Google button
- * Signed in  → Google profile photo, real name + email, Sign out button
+ * Layout:
+ *   [ProfileHero]    banner + avatar + name/subtitle  (zIndex: 0, never scrolls)
+ *   [settingsButton]                                   (zIndex: 2)
+ *   [contentLayer]                                     (zIndex: 1)
+ *     ├─ spacer
+ *     └─ sheet
+ *          ├─ <ProfileCreateCard />   when signed out
+ *          └─ empty view              when signed in (sign-out is in Settings)
  */
 export default function ProfileScreen() {
   const { user, isLoading, setUser, setLoading } = useAuthStore();
   const router = useRouter();
+  const { width: screenWidth } = useWindowDimensions();
+  const insets = useSafeAreaInsets();
 
-  // ─── Handlers ───────────────────────────────────────────────────────────────
+  const heroHeight = screenWidth * (3 / 4);
+
+  // ─── Handlers ─────────────────────────────────────────────────────────────
 
   async function handleSignIn() {
     setLoading(true);
@@ -53,83 +59,93 @@ export default function ProfileScreen() {
     }
   }
 
-  async function handleSignOut() {
-    setLoading(true);
-    try {
-      await signOut();
-      setUser(null);
-    } catch {
-      Alert.alert("Sign-out failed", "Something went wrong. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  // ─── Render ─────────────────────────────────────────────────────────────────
+  // ─── Render ───────────────────────────────────────────────────────────────
 
   return (
-    <ScrollView
-      style={styles.container}
-      contentContainerStyle={styles.scrollContent}
-      showsVerticalScrollIndicator={false}
-    >
-      {/* Banner + circular avatar + settings icon */}
+    <SafeAreaView style={{ flex: 1 }} edges={["top", "left", "right"]}>
+      {/* Banner + avatar + name */}
       <ProfileHero
         avatarUri={user?.avatarUrl}
-        onSettingsPress={() => router.push("/settings")}
+        name={user ? user.name : "Guest"}
+        subtitle={user ? user.email : "Sign in to get the best experience"}
+        height={heroHeight}
       />
 
-      {/* Name, email, action button */}
-      <View style={styles.body} className="items-center px-6">
-        <Text className="mt-2 text-2xl font-bold text-slate-900">
-          {user ? user.name : "Cocoa"}
-        </Text>
+      {/* Settings — above everything */}
+      <TouchableOpacity
+        onPress={() => router.push("/settings")}
+        activeOpacity={0.7}
+        style={[styles.settingsButton, { top: insets.top + 8 }]}
+      >
+        <View style={styles.settingsCircle}>
+          <Svg width={20} height={20} viewBox="0 0 24 24" fill="none">
+            <Path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1ZM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
+              fill="#1b4332"
+            />
+          </Svg>
+        </View>
+      </TouchableOpacity>
 
-        {user ? (
-          <Text className="mt-1 text-sm text-slate-500">{user.email}</Text>
-        ) : null}
+      {/* Content layer */}
+      <View style={styles.contentLayer}>
+        <View style={{ height: heroHeight - 42 }} />
 
-        <TouchableOpacity
-          onPress={user ? handleSignOut : handleSignIn}
-          disabled={isLoading}
-          activeOpacity={0.8}
-          style={styles.button}
-          className="mt-6 flex-row items-center justify-center gap-3 rounded-2xl border border-slate-200 bg-white"
+        <ScrollView
+          style={styles.sheet}
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
         >
-          {isLoading ? (
-            <ActivityIndicator color="#64748b" />
-          ) : user ? (
-            <Text className="text-base font-semibold text-slate-700">Sign out</Text>
+          {user ? (
+            // Signed in — period selector scaffolding
+            <ProfilePeriodSelector />
           ) : (
-            <>
-              <Text className="text-xl">🔵</Text>
-              <Text className="text-base font-semibold text-slate-800">
-                Sign in with Google
-              </Text>
-            </>
+            // Not signed in
+            <ProfileCreateCard isLoading={isLoading} onCreateProfile={handleSignIn} onGoogleSignIn={handleSignIn} />
           )}
-        </TouchableOpacity>
+        </ScrollView>
       </View>
-    </ScrollView>
+    </SafeAreaView>
   );
 }
 
 // ─── Styles ───────────────────────────────────────────────────────────────────
 
 const styles = StyleSheet.create({
-  container: {
+  settingsButton: {
+    position: "absolute",
+    right: 16,
+    zIndex: 2,
+  },
+  settingsCircle: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    backgroundColor: "#ffffff",
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.18,
+    shadowRadius: 4,
+    elevation: 4,
+  },
+  contentLayer: {
+    flex: 1,
+    zIndex: 1,
+  },
+  sheet: {
     flex: 1,
     backgroundColor: "#ffffff",
+    borderTopLeftRadius: 13,
+    borderTopRightRadius: 13,
   },
   scrollContent: {
     flexGrow: 1,
+    paddingBottom: 32,
   },
-  body: {
-    paddingTop: PROFILE_HERO_OVERLAP + 8,
-  },
-  button: {
-    paddingVertical: 14,
-    paddingHorizontal: 32,
-    minWidth: 220,
-  },
+
 });

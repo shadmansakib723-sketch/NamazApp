@@ -4,6 +4,22 @@ import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
+import { useAuthInit } from "@/hooks/useAuthInit";
+
+function AppNavigator() {
+  useAuthInit();
+
+  return (
+    <Stack>
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="settings"
+        options={{ presentation: "modal", headerShown: false }}
+      />
+    </Stack>
+  );
+}
+
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
     "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
@@ -19,13 +35,7 @@ export default function RootLayout() {
 
   return (
     <SafeAreaProvider>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen
-          name="settings"
-          options={{ presentation: "modal", headerShown: false }}
-        />
-      </Stack>
+      <AppNavigator />
     </SafeAreaProvider>
   );
 }
