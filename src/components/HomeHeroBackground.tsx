@@ -49,7 +49,7 @@ export function HomeHeroBackground({ height }: HomeHeroBackgroundProps) {
     >
       {/* Background artwork */}
       <Image
-        source={require("../../assets/llll.png")}
+        source={require("../../assets/fff.png")}
         style={styles.image}
         resizeMode="cover"
         fadeDuration={0}
@@ -86,9 +86,9 @@ const styles = StyleSheet.create({
   },
   lottie: {
     position: "absolute",
-    right: 0,
-    bottom: 0,
-    width: "50%",
-    height: "90%",
+    right: 5,
+    bottom: 10,
+    width: "45%",
+    height: "45%",
   },
 });
