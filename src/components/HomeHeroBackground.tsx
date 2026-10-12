@@ -1,3 +1,4 @@
+import LottieView from "lottie-react-native";
 import { Image, StyleSheet, View } from "react-native";
 
 // ─── Props ────────────────────────────────────────────────────────────────────
@@ -33,6 +34,12 @@ interface HomeHeroBackgroundProps {
  *
  * pointerEvents="none" ensures the artwork never intercepts touch events —
  * the user can interact with content that visually overlaps it.
+ *
+ * Lottie overlay
+ * ──────────────
+ * cat.json is rendered on the right side of the hero using absolute
+ * positioning. It loops indefinitely and inherits pointerEvents="none"
+ * from the parent container.
  */
 export function HomeHeroBackground({ height }: HomeHeroBackgroundProps) {
   return (
@@ -40,13 +47,22 @@ export function HomeHeroBackground({ height }: HomeHeroBackgroundProps) {
       pointerEvents="none"
       style={[styles.container, { height }]}
     >
+      {/* Background artwork */}
       <Image
-        source={require("../../assets/fff.png")}
+        source={require("../../assets/llll.png")}
         style={styles.image}
         resizeMode="cover"
         fadeDuration={0}
         accessibilityElementsHidden
         importantForAccessibility="no-hide-descendants"
+      />
+
+      {/* Lottie animation — right side of hero */}
+      <LottieView
+        source={require("../../assets/cat.json")}
+        autoPlay
+        loop
+        style={styles.lottie}
       />
     </View>
   );
@@ -67,5 +83,12 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     backgroundColor: "transparent",
+  },
+  lottie: {
+    position: "absolute",
+    right: 0,
+    bottom: 0,
+    width: "50%",
+    height: "90%",
   },
 });
