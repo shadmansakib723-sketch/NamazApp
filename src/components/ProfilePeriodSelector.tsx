@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { Modal, Pressable, ScrollView, Text, TouchableOpacity, View } from "react-native";
 
+import { PrayerBreakdownCard } from "@/components/PrayerBreakdownCard";
+import { TrackedPrayersCard } from "@/components/TrackedPrayersCard";
+
 import type { PeriodType } from "@/types/period";
 import {
   PERIOD_TABS,
@@ -80,6 +83,12 @@ export function ProfilePeriodSelector() {
           <Text className="font-poppins-semibold text-[22px] leading-[26px] text-[#1A3C34]">›</Text>
         </TouchableOpacity>
       </View>
+
+      {/* Tracked Prayers card */}
+      <TrackedPrayersCard />
+
+      {/* Prayer Breakdown card */}
+      <PrayerBreakdownCard />
 
       {/* Picker */}
       <Modal

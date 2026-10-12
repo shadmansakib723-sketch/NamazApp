@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import { Text } from "react-native";
 import type { SvgProps } from "react-native-svg";
 
@@ -19,16 +19,23 @@ import FriendIcon from "../../assets/friend.svg";
  * Styled with NativeWind classes; StyleSheet used only for
  * platform shadow (iOS/Android).
  */
-export function StatsBar() {
+interface StatsBarProps {
+  /** Called when the user taps the streak tile */
+  onStreakPress: () => void;
+}
+
+export function StatsBar({ onStreakPress }: StatsBarProps) {
   return (
     <View style={styles.container} className="mx-4 flex-row rounded-3xl bg-surface px-3 py-3">
       {/* ── Streak ─────────────────────────────────────────────────── */}
-      <StatTile
-        iconBg="bg-orange-100"
-        Icon={FireIcon}
-        value="5 Days"
-        label="Streak"
-      />
+      <Pressable onPress={onStreakPress} style={styles.streakPressable}>
+        <StatTile
+          iconBg="bg-orange-100"
+          Icon={FireIcon}
+          value="5 Days"
+          label="Streak"
+        />
+      </Pressable>
 
       {/* ── Separator ──────────────────────────────────────────────── */}
       <View style={styles.separator} />
@@ -106,5 +113,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#E0E0E0",
     marginVertical: 6,
     alignSelf: "stretch",
+  },
+  streakPressable: {
+    flex: 1,
   },
 });

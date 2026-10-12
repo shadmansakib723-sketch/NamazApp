@@ -47,7 +47,17 @@ const STATUS_PILL: Record<
   late: { label: "Late", bg: "#F59E0B", text: "#fff" },
   excused: { label: "Excused", bg: "#6366F1", text: "#fff" },
   missed: { label: "Missed", bg: "#EF4444", text: "#fff" },
+  qaza: { label: "Qaza", bg: "#7C3AED", text: "#fff" },
 };
+
+// ─── Props ────────────────────────────────────────────────────────────────────
+
+interface Props {
+  /** Current status for each prayer, owned by the parent screen */
+  statuses: Record<PrayerKey, PrayerStatus>;
+  /** Called when the user selects a status from the bottom sheet */
+  onStatusChange: (key: PrayerKey, status: Exclude<PrayerStatus, null>) => void;
+}
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
@@ -58,17 +68,8 @@ const STATUS_PILL: Record<
  * surface background token, and interactive prayer tracking tiles.
  * Tapping any prayer opens a bottom sheet to log the prayer status.
  */
-export function PrayerTapCard() {
-  // Status per prayer — null means not yet logged
-  const [statuses, setStatuses] = useState<Record<PrayerKey, PrayerStatus>>({
-    fajr: null,
-    dhuhr: null,
-    asr: null,
-    maghrib: null,
-    isha: null,
-  });
-
-  // Which prayer's sheet is currently open
+export function PrayerTapCard({ statuses, onStatusChange }: Props) {
+  // UI-only state — which prayer's log sheet is open right now
   const [activeSheet, setActiveSheet] = useState<PrayerKey | null>(null);
 
   function openSheet(key: PrayerKey) {
@@ -81,7 +82,7 @@ export function PrayerTapCard() {
 
   function handleSelect(status: Exclude<PrayerStatus, null>) {
     if (!activeSheet) return;
-    setStatuses((prev) => ({ ...prev, [activeSheet]: status }));
+    onStatusChange(activeSheet, status);
     setActiveSheet(null);
   }
 
