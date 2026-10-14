@@ -93,9 +93,7 @@ export default function HomeScreen() {
 
               {/* Next Prayer card */}
               <NextPrayerCard
-                prayerName={prayer.prayerName}
-                prayerTime={prayer.prayerTime}
-                countdown={prayer.countdown}
+                allPrayers={prayer.allPrayers}
                 city={prayer.city}
                 country={prayer.country}
                 date={prayer.date}

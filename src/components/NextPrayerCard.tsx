@@ -1,15 +1,31 @@
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native";
+import type { SvgProps } from "react-native-svg";
+
+import AsrIcon from "../../assets/asr.svg";
+import DhuhrIcon from "../../assets/dhuhr.svg";
+import FajrIcon from "../../assets/fajr.svg";
+import IshaIcon from "../../assets/isha.svg";
+import MaghribIcon from "../../assets/maghrib.svg";
+import type { PrayerRow } from "@/utils/prayerTimes";
+
+// ─── Icon map ─────────────────────────────────────────────────────────────────
+
+// Sunrise reuses FajrIcon as requested
+const ICONS: Record<PrayerRow["key"], React.FC<SvgProps>> = {
+  fajr: FajrIcon,
+  sunrise: FajrIcon,
+  dhuhr: DhuhrIcon,
+  asr: AsrIcon,
+  maghrib: MaghribIcon,
+  isha: IshaIcon,
+};
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 export interface NextPrayerCardProps {
-  /** Name of the next prayer, e.g. "Dhuhr" */
-  prayerName: string;
-  /** Formatted prayer time, e.g. "11:48 AM" */
-  prayerTime: string;
-  /** Human-readable countdown, e.g. "in 2h 16m" */
-  countdown: string;
+  /** All 6 prayer rows (Fajr, Sunrise, Dhuhr, Asr, Maghrib, Isha) */
+  allPrayers: PrayerRow[];
   /** City / district name, e.g. "Sylhet District" */
   city: string;
   /** Country name, e.g. "Bangladesh" */
@@ -18,59 +34,83 @@ export interface NextPrayerCardProps {
   date: string;
 }
 
+// ─── Sub-component: single prayer row ─────────────────────────────────────────
+
+interface PrayerListRowProps {
+  row: PrayerRow;
+  isLast: boolean;
+}
+
+function PrayerListRow({ row, isLast }: PrayerListRowProps) {
+  const Icon = ICONS[row.key];
+
+  return (
+    <>
+      <View
+        className="flex-row items-center gap-x-2 py-1"
+      >
+        {/* Circular icon */}
+        <View className="h-7 w-7 items-center justify-center overflow-hidden rounded-full bg-[#F3F4EC]">
+          <Icon width={22} height={22} />
+        </View>
+
+        {/* Prayer name */}
+        <Text
+          className={`flex-1 font-poppins text-xs ${row.isNext ? "font-poppins-semibold text-brand-dark" : "text-text-secondary"}`}
+        >
+          {row.name}
+        </Text>
+
+        {/* Time */}
+        <Text
+          className={`font-poppins text-xs ${row.isNext ? "font-poppins-semibold text-brand-dark" : "text-text-secondary"}`}
+        >
+          {row.time}
+        </Text>
+
+
+      </View>
+
+      {/* Thin divider — not after the last row */}
+      {!isLast && <View style={styles.rowDivider} />}
+    </>
+  );
+}
+
 // ─── Component ────────────────────────────────────────────────────────────────
 
 /**
  * NextPrayerCard
  *
- * Displays a two-column info card:
- *   Left  — mosque icon, "Next Prayer" label, prayer name, time, countdown
- *   Right — location and date rows
+ * Two-column card:
+ *   Left  — vertical list of all 6 prayer times; next prayer is highlighted
+ *   Right — location and date rows (unchanged)
  *
- * All styling is done with NativeWind classes.
- * StyleSheet is used only for the vertical divider (dynamic height fill)
- * and the card shadow (platform-specific props).
+ * Styling: NativeWind throughout; StyleSheet only for shadow + dividers.
  */
 export function NextPrayerCard({
-  prayerName,
-  prayerTime,
-  countdown,
+  allPrayers,
   city,
   country,
   date,
 }: NextPrayerCardProps) {
   return (
-    <View style={styles.card} className="mx-4 flex-row rounded-2xl bg-surface p-5">
-      {/* ── Left column ─────────────────────────────────────────────────── */}
-      <View className="flex-1 justify-center gap-y-1">
-        {/* Mosque icon + "Next Prayer" label */}
-        <View className="flex-row items-center gap-x-2">
-          <Text style={styles.mosqueIcon}>🕌</Text>
-          <Text className="font-poppins text-xs text-text-secondary">
-            Next Prayer
-          </Text>
-        </View>
-
-        {/* Prayer name */}
-        <Text className="font-poppins-bold text-3xl text-brand-dark">
-          {prayerName}
-        </Text>
-
-        {/* Prayer time */}
-        <Text className="font-poppins-bold text-2xl text-brand-dark">
-          {prayerTime}
-        </Text>
-
-        {/* Countdown */}
-        <Text className="font-poppins text-sm text-text-secondary">
-          {countdown}
-        </Text>
+    <View style={styles.card} className="mx-4 flex-row rounded-2xl bg-surface p-4">
+      {/* ── Left column: prayer list ──────────────────────────────────────── */}
+      <View className="flex-1 justify-center">
+        {allPrayers.map((row, index) => (
+          <PrayerListRow
+            key={row.key}
+            row={row}
+            isLast={index === allPrayers.length - 1}
+          />
+        ))}
       </View>
 
-      {/* ── Vertical divider ────────────────────────────────────────────── */}
+      {/* ── Vertical divider ─────────────────────────────────────────────── */}
       <View style={styles.divider} />
 
-      {/* ── Right column ────────────────────────────────────────────────── */}
+      {/* ── Right column: location + date (untouched) ────────────────────── */}
       <View className="flex-1 justify-center gap-y-4 pl-4">
         {/* Location row */}
         <View className="flex-row items-start gap-x-3">
@@ -119,8 +159,10 @@ const styles = StyleSheet.create({
     marginVertical: 4,
     alignSelf: "stretch",
   },
-  mosqueIcon: {
-    fontSize: 18,
+  rowDivider: {
+    height: 1,
+    backgroundColor: "#EFEFEF",
+    marginVertical: 1,
   },
   rowIcon: {
     fontSize: 14,

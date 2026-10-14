@@ -5,7 +5,9 @@ import {
   formatCountdown,
   formatDate,
   formatTime,
+  getAllPrayerTimes,
   getNextPrayer,
+  type PrayerRow,
 } from "@/utils/prayerTimes";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -17,6 +19,8 @@ interface NextPrayerState {
   city: string;
   country: string;
   date: string;
+  /** All 6 prayer rows for the list UI */
+  allPrayers: PrayerRow[];
   isLoading: boolean;
   error: string | null;
 }
@@ -30,6 +34,7 @@ const LOADING_STATE: NextPrayerState = {
   city: "Locating…",
   country: "—",
   date: formatDate(new Date()),
+  allPrayers: [],
   isLoading: true,
   error: null,
 };
@@ -58,12 +63,14 @@ export function useNextPrayer(): NextPrayerState {
      */
     function refreshPrayerData(): void {
       const next = getNextPrayer(latitude, longitude);
+      const allPrayers = getAllPrayerTimes(latitude, longitude);
       setState((prev) => ({
         ...prev,
         prayerName: next.name,
         prayerTime: formatTime(next.time),
         countdown: formatCountdown(next.time),
         date: formatDate(new Date()),
+        allPrayers,
         isLoading: false,
         error: null,
       }));
@@ -112,6 +119,7 @@ export function useNextPrayer(): NextPrayerState {
 
         // 4. Calculate initial prayer data
         const next = getNextPrayer(latitude, longitude);
+        const allPrayers = getAllPrayerTimes(latitude, longitude);
 
         setState({
           prayerName: next.name,
@@ -120,6 +128,7 @@ export function useNextPrayer(): NextPrayerState {
           city,
           country,
           date: formatDate(new Date()),
+          allPrayers,
           isLoading: false,
           error: null,
         });

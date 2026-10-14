@@ -14,6 +14,17 @@ export interface NextPrayer {
   time: Date;
 }
 
+export interface PrayerRow {
+  /** Internal key used for icon lookup */
+  key: "fajr" | "sunrise" | "dhuhr" | "asr" | "maghrib" | "isha";
+  /** Display name */
+  name: string;
+  /** Formatted time string, e.g. "4:42 AM" */
+  time: string;
+  /** True when this is the next upcoming prayer */
+  isNext: boolean;
+}
+
 // ─── Constants ────────────────────────────────────────────────────────────────
 
 /** Human-readable prayer name map from adhan Prayer enum values */
@@ -69,6 +80,74 @@ export function getNextPrayer(latitude: number, longitude: number): NextPrayer {
   const tomorrowTimes = new PrayerTimes(coords, tomorrow, params);
 
   return { name: "Fajr", time: tomorrowTimes.fajr };
+}
+
+/**
+ * Returns all 6 prayer rows (Fajr, Sunrise, Dhuhr, Asr, Maghrib, Isha)
+ * with formatted times and an `isNext` flag on the upcoming prayer.
+ * Sunrise is never marked as "next" — it is display-only.
+ */
+export function getAllPrayerTimes(
+  latitude: number,
+  longitude: number,
+): PrayerRow[] {
+  const times = getPrayerTimes(latitude, longitude);
+  const now = new Date();
+
+  // The 5 trackable prayers in order (excluding sunrise)
+  const trackable: { prayer: string; time: Date }[] = [
+    { prayer: Prayer.Fajr, time: times.fajr },
+    { prayer: Prayer.Dhuhr, time: times.dhuhr },
+    { prayer: Prayer.Asr, time: times.asr },
+    { prayer: Prayer.Maghrib, time: times.maghrib },
+    { prayer: Prayer.Isha, time: times.isha },
+  ];
+
+  // Determine which prayer is next (first one still in the future)
+  const nextPrayer = trackable.find(({ time }) => time > now);
+  const nextKey = nextPrayer?.prayer ?? Prayer.Fajr;
+
+  // Build display rows — Sunrise sits between Fajr and Dhuhr
+  const rows: PrayerRow[] = [
+    {
+      key: "fajr",
+      name: "Fajr",
+      time: formatTime(times.fajr),
+      isNext: nextKey === Prayer.Fajr,
+    },
+    {
+      key: "sunrise",
+      name: "Sunrise",
+      time: formatTime(times.sunrise),
+      isNext: false,
+    },
+    {
+      key: "dhuhr",
+      name: "Dhuhr",
+      time: formatTime(times.dhuhr),
+      isNext: nextKey === Prayer.Dhuhr,
+    },
+    {
+      key: "asr",
+      name: "Asr",
+      time: formatTime(times.asr),
+      isNext: nextKey === Prayer.Asr,
+    },
+    {
+      key: "maghrib",
+      name: "Maghrib",
+      time: formatTime(times.maghrib),
+      isNext: nextKey === Prayer.Maghrib,
+    },
+    {
+      key: "isha",
+      name: "Isha",
+      time: formatTime(times.isha),
+      isNext: nextKey === Prayer.Isha,
+    },
+  ];
+
+  return rows;
 }
 
 /**
