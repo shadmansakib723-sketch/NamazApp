@@ -1,4 +1,4 @@
-﻿// Prayer log status — null means the user has not logged this prayer yet
+// Prayer log status — null means the user has not logged this prayer yet
 export type PrayerStatus =
   | "on_time"
   | "late"

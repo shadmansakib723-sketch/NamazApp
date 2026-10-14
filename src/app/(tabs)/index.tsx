@@ -6,7 +6,6 @@ import { HomeHeroBackground } from "@/components/HomeHeroBackground";
 import { NextPrayerCard } from "@/components/NextPrayerCard";
 import { PrayerTapCard } from "@/components/PrayerTapCard";
 import { QazaCard } from "@/components/QazaCard";
-import { StatsBar } from "@/components/StatsBar";
 import { StreakSheet } from "@/components/StreakSheet";
 import { useNextPrayer } from "@/hooks/useNextPrayer";
 import type { PrayerKey, PrayerStatus } from "@/types/prayer";
@@ -17,11 +16,11 @@ import type { PrayerKey, PrayerStatus } from "@/types/prayer";
  * Z-order (back → front):
  *
  *   [SafeAreaView]
- *     ├─ [HomeHeroBackground]   zIndex: 0 — absolutely positioned, non-interactive
- *     └─ [contentLayer]         zIndex: 1 — sits on top of the hero
- *          ├─ [heroSpacer]      same height as artwork → sheet starts just below it
+ *     ├─ [HomeHeroBackground]   zIndex: 1 — fixed hero artwork with interactive fire/coin chips
+ *     └─ [contentLayer]         zIndex: 1 — sits on top (pointerEvents="box-none")
+ *          ├─ [heroSpacer]      same height as artwork (pointerEvents="none")
  *          └─ [sheetContainer]  rounded-top white panel
- *               └─ [ScrollView] scrollable content: stats, cards, qaza
+ *               └─ [ScrollView] scrollable prayer cards & qaza
  *
  * State ownership
  * ───────────────
@@ -71,13 +70,17 @@ export default function HomeScreen() {
   return (
     <>
       <SafeAreaView style={{ flex: 1 }} edges={["top", "left", "right"]}>
-        {/* ── Hero artwork: decorative, non-interactive, fixed (z=0) ── */}
-        <HomeHeroBackground height={heroHeight} />
+        {/* ── Hero artwork: decorative with interactive streak & coin chips ── */}
+        <HomeHeroBackground
+          height={heroHeight}
+          streak={currentStreak}
+          onStreakPress={() => setStreakSheetVisible(true)}
+        />
 
-        {/* ── Content layer (z=1) ─────────────────────────────────── */}
-        <View style={styles.contentLayer}>
+        {/* ── Content layer ────────────────────────────────────────── */}
+        <View pointerEvents="box-none" style={styles.contentLayer}>
           {/* Spacer that pushes the rounded sheet below the hero artwork */}
-          <View style={{ height: heroHeight - 42 }} />
+          <View pointerEvents="none" style={{ height: heroHeight - 42 }} />
 
           {/* ── White sheet panel with rounded top corners ─────────── */}
           <View style={styles.sheetContainer}>
@@ -85,12 +88,6 @@ export default function HomeScreen() {
               showsVerticalScrollIndicator={false}
               contentContainerStyle={styles.scrollContent}
             >
-              {/* Stats bar — streak, friends, points */}
-              <StatsBar onStreakPress={() => setStreakSheetVisible(true)} />
-
-              {/* Gap between StatsBar and NextPrayerCard */}
-              <View className="h-3" />
-
               {/* Next Prayer card */}
               <NextPrayerCard
                 allPrayers={prayer.allPrayers}
